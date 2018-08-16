@@ -1,4 +1,4 @@
-package com.colobu.kafka
+package com.cacuna.kafka
 
 import java.util.{Date, Properties}
 

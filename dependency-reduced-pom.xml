@@ -33,7 +33,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.colobu.kafka.ConsumerExample</mainClass>
+                  <mainClass>com.cacuna.kafka.ConsumerExample</mainClass>
                 </transformer>
               </transformers>
             </configuration>

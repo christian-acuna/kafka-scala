@@ -1,4 +1,4 @@
-package com.colobu.kafka;
+package com.cacuna.kafka;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
