@@ -3,8 +3,7 @@ package com.cacuna.kafka
 import java.util.concurrent._
 import java.util.{Collections, Properties}
 
-import kafka.consumer.KafkaStream
-import kafka.utils.Logging
+import com.sun.javafx.util.Logging
 import org.apache.kafka.clients.consumer.{ConsumerConfig, KafkaConsumer}
 
 import scala.collection.JavaConversions._
