@@ -3,8 +3,9 @@ package com.cacuna.kafka.confluent
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.streams.scala.kstream._
 import org.apache.kafka.streams.scala.ImplicitConversions._
-import org.apache.kafka.streams.StreamsConfig
+import org.apache.kafka.streams.{KafkaStreams, StreamsConfig}
 import java.util.Properties
+import java.util.concurrent.TimeUnit
 
 import org.apache.kafka.streams.scala.{Serdes, StreamsBuilder}
 
@@ -12,7 +13,7 @@ object SumLambdaExample {
   def main(args: Array[String]): Unit = {
     import Serdes._
 
-    val NUMBERS_TOPIC = "numbers-topic"
+    val NUMBERS_TOPIC = "numbers-topic-2"
     val SUM_OF_ODD_NUMBERS_TOPIC = "sum-of-odd-numbers-topic"
     val props: Properties = {
       val p = new Properties()
@@ -23,7 +24,7 @@ object SumLambdaExample {
       p.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.Integer.getClass.getName)
       p.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
       p.put(StreamsConfig.STATE_DIR_CONFIG, "/tmp/kafka-streams")
-      p.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 10 * 1000)
+//      p.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 10000L)
       p
     }
 
@@ -36,5 +37,13 @@ object SumLambdaExample {
       .reduce(_ + _)
 
     sumOfOddNumbers.toStream.to(SUM_OF_ODD_NUMBERS_TOPIC)
+
+    val streams: KafkaStreams = new KafkaStreams(builder.build(), props)
+    streams.cleanUp()
+    streams.start()
+
+    sys.ShutdownHookThread {
+      streams.close(10, TimeUnit.SECONDS)
+    }
   }
 }
